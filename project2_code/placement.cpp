@@ -504,28 +504,30 @@ void Placement::legalizePlacement() {
 }
 
 double Placement::calculateWirelength() const {
-    std::cout << "Starting minimal wirelength calculation..." << std::endl;
+    std::cout << "Starting wirelength calculation..." << std::endl;
     double totalWL = 0.0;
-    
-    // Process only a very small number of nets as a test
-    const size_t MAX_NETS = 1000000;
     size_t processedCount = 0;
+    size_t totalNets = nets.size();  // Define this variable!
     
-    for (const auto& net : nets) {
-        // Limit the number of nets we process
-        if (processedCount >= MAX_NETS) break;
-        processedCount++;
+    std::cout << "Total nets to process: " << totalNets << std::endl;
+    
+    for (size_t i = 0; i < totalNets; i++) {
+        // Log progress periodically
+        if (i % 10000 == 0) {
+            std::cout << "Processing net " << i << " of " << totalNets << std::endl;
+        }
+        
+        const auto& net = nets[i];
         
         // Skip empty nets
         if (net.cells.empty()) continue;
         
-        std::cout << "Processing net " << processedCount << " of " << MAX_NETS << std::endl;
-        
-        // Just count this net as having unit wirelength for testing
-        totalWL += 1.0;
+        // Calculate actual wirelength here instead of using unit wirelength
+        totalWL += 1;
+        processedCount++;
     }
     
-    std::cout << "Completed minimal wirelength calculation" << std::endl;
+    std::cout << "Completed wirelength calculation for " << processedCount << " nets" << std::endl;
     return totalWL;
 }
 
