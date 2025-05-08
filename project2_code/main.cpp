@@ -158,12 +158,12 @@ int main() {
     std::unordered_map<std::string, std::vector<Net*>> nodeToNetsMap;
 
     // 3) Parse the .nets file
-    bool netsRead = parseNetsFile("superblue18.nets", netList, nodeToNetsMap);
+    bool netsRead = parseNetsFile("superblue12.nets", netList, nodeToNetsMap);
     std::cout << "Nets read: " << (netsRead ? "Yes" : "No") << std::endl;
     std::cout << "Net count: " << netList.count() << std::endl;
 
     // 4) Parse the .nodes file
-    bool nodesRead = parseNodesFile("superblue18.nodes", nodeToNetsMap);
+    bool nodesRead = parseNodesFile("superblue12.nodes", nodeToNetsMap);
     std::cout << "Nodes read: " << (nodesRead ? "Yes" : "No") << std::endl;
 
     // 5) Initialize node attributes for the FM algorithm
@@ -210,7 +210,7 @@ int main() {
     std::cout << "\n--- Running Multi-Pass FM Partitioner ---\n";
     
     // Create FM data structures (limit size as needed)
-    const size_t MAX_CELLS = 500000; // Adjust as needed
+    const size_t MAX_CELLS = 1300000; // Adjust as needed
     std::vector<Cell> cells;
     std::vector<Net> fmNets;
     cells.reserve(MAX_CELLS);
@@ -330,8 +330,8 @@ int main() {
     FM_Partitioner fmPartitioner(cells, fmNets);
     
     // Set up checkpoint file and flag
-    const std::string checkpointFile = "fm_checkpoint.dat";
-    bool useCheckpoint = true; // Set to true to use checkpoint, false to rerun FM
+    const std::string checkpointFile = "fm_checkpoint12.dat";
+    bool useCheckpoint = false; // Set to true to use checkpoint, false to rerun FM
 
     // *** THIS IS WHERE THE CHECKPOINT CODE SHOULD GO ***
     try {
@@ -390,7 +390,7 @@ int main() {
     std::vector<int> fixedCellIds;
 
     // IMPORTANT: Limit the number of fixed cells we process to avoid memory issues
-    const size_t MAX_FIXED_CELLS = 100000; // Adjust as needed
+    const size_t MAX_FIXED_CELLS = 200000; // Adjust as needed
     size_t fixedCellsFound = 0;
 
     for (size_t i = 0; i < cells.size(); i++) {
@@ -451,7 +451,7 @@ int main() {
     placer.runPlacement();
 
     // Output the results
-    placer.outputPlacement("placement_result.csv");
+    placer.outputPlacement("placement_result12.csv");
     
     return 0;
 }
